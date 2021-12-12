@@ -3,8 +3,8 @@ using System.Threading.Tasks.Dataflow;
 using Coursework;
 
 var matrix = new int[] { 2, 3, 3, 4, 1, 0 };
-var matrixRows = 3;
-var matrixColumns = 2;
+var matrixRows = 2;
+var matrixColumns = 3;
 var minorSize = 2;
 
 var buffer = new BufferBlock<(int, int)[]>();
@@ -12,9 +12,9 @@ var buffer = new BufferBlock<(int, int)[]>();
 var minorBuilder = new TransformBlock<(int, int)[], int[]>(minorSpec =>
     {
         var minor = new int[minorSize * minorSize];
-        MatrixCoordinator.BuildMinor(matrix, matrixRows, minorSpec, ref minor, minorSize);
+        MatrixCoordinator.BuildMinor(matrix, matrixColumns, minorSpec, ref minor, minorSize);
         return minor;
-    }, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 }
+    }
 );
 
 var strBuilder = new TransformBlock<int[], string>(minor =>
@@ -35,7 +35,7 @@ var strBuilder = new TransformBlock<int[], string>(minor =>
     });
     str.AppendLine("\n-------------------------");
     return str.ToString();
-}, new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1});
+});
 var strBuffer = new BufferBlock<string>();
 
 var consoleWriter = new ActionBlock<string>(str => Console.WriteLine(str), new ExecutionDataflowBlockOptions

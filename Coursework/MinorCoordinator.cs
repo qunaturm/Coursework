@@ -18,14 +18,14 @@ public static class MinorCoordinator
 	public static IEnumerable<(int, int)[]> GetMinors(int matrixRows, int matrixColumns, int minorSize)
 	{
 		var colsMinors = GetAxisMinors(matrixColumns, minorSize);
-		var rowsMinors = GetAxisMinors(matrixRows, minorSize);
+		var rowsMinors = CombinationsCaclucator.Combinations(matrixRows, minorSize);
 
 		foreach (var _cols in colsMinors)
 		{ 
 			foreach (var _rows in rowsMinors)
 			{
-				var minor =  (from col in _cols
-							  from row in _rows
+				var minor = ( from row in _rows
+							  from col in _cols
 							  select (row, col)).ToArray();
 				yield return minor;
 			}

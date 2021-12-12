@@ -13,7 +13,7 @@ namespace Coursework
             int i = 0, j = 0;
             foreach (var minor in minorSpec)
             {
-                minorMatrix[i + j * minorRowSize] = matrix[minor.Item1 + minor.Item2 * matrixRowSize];
+                minorMatrix[j * minorRowSize + i] = matrix[minor.Item1 * matrixRowSize + minor.Item2];
                 i++;
                 if (i >= minorRowSize)
                 {
